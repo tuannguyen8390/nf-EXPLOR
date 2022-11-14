@@ -1,0 +1,4 @@
+SampleID,Technology,IntID,Breed,Sex,Sire_IntID,Dam_IntID,BioSampleID,BioProjectID,Shortread_Avail,FASTQ_LR_Dir
+HOL1,ONT,IntID0,HOL,F,Sire,Dam,BioSampleID,BioProjectID,TRUE,/group/dairy/Tuan/Recessive_lethal/Nextflow/AgVic_BovLRC_Github/asset/test_data/LR/HOL1
+BRA1,ONT,IntID1,BRA,M,Sire,Dam,BioSampleID,BioProjectID,FALSE,/group/dairy/Tuan/Recessive_lethal/Nextflow/AgVic_BovLRC_Github/asset/test_data/LR/BRA1
+BRA2,PB,IntID1,BRA,M,Sire,Dam,BioSampleID,BioProjectID,FALSE,/group/dairy/Tuan/Recessive_lethal/Nextflow/AgVic_BovLRC_Github/asset/test_data/LR/BRA2

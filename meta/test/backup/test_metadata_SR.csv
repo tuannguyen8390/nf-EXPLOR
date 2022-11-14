@@ -1,0 +1,2 @@
+SampleID,IntID,Breed,Sex,Sire_IntID,Dam_IntID,BioSampleID,BioProjectID,FASTQ_SR_Dir
+HOL1,IntID,HOL,F,NA,NA,BioSampleID,BioProjectID,/group/dairy/Tuan/Recessive_lethal/Nextflow/AgVic_BovLRC_Github/asset/test_data/SR/HOL1/
