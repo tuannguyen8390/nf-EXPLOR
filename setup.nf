@@ -35,6 +35,20 @@ process download_genome {
     """
 }
 
+process download_asset {
+    publishDir "$baseDir", mode: 'copy'
+
+    input:
+
+    output:
+
+    script:
+    """
+    wget https://bovlrctest.s3.amazonaws.com/asset.zip
+    unzip asset.zip    
+    """
+}
+
 process download_clair3_model {
     publishDir "asset/models", mode: 'copy'
 
@@ -95,6 +109,7 @@ time '1h'
 workflow {
     make_sample_meta()
     download_genome()
+    download_asset()
     download_clair3_model()
     make_map_index(download_genome.out.fagz)
     make_gatk_index(download_genome.out.fagz)
