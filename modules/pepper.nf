@@ -1,7 +1,7 @@
 process PEPPER {
 label 'big_job'
 queue 'batch'
-time '168h'
+time '400h'
         
         scratch true
         stageInMode = 'copy'
@@ -17,7 +17,8 @@ time '168h'
         path genome_index
         tuple val(SampleID), val(Technology)
 
-        
+        when:
+
         output : 
 
         script :

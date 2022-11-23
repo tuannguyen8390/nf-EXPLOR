@@ -1,7 +1,7 @@
 process CUTESV {
-label 'medium_job' 
+label 'big_job' 
 queue 'batch'
-time '48h'
+time '24h'
 
         scratch true
         stageInMode = 'symlink'
@@ -23,7 +23,7 @@ time '48h'
         script:
         """
         zcat ${genome} > genome.fa
-        cuteSV  --threads $task.cpus --genotype --retain_work_dir --sample ${SampleID} --report_readid ${bam} genome.fa ${SampleID}_SV.vcf .
+        cuteSV  --threads $task.cpus --genotype --sample ${SampleID} --report_readid ${bam} genome.fa ${SampleID}_SV.vcf .
         gzip ${SampleID}_SV.vcf
         rm -rf genome.fa
         """

@@ -1,6 +1,5 @@
 nextflow.enable.dsl=2
 
-
 process make_sample_meta {
 label 'single_cpu_job' 
 queue 'batch'
@@ -48,6 +47,7 @@ process download_asset {
     unzip asset.zip    
     """
 }
+
 
 process download_clair3_model {
     publishDir "asset/models", mode: 'copy'

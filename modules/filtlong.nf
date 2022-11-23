@@ -1,9 +1,13 @@
 
 process FILTLONG {
-label 'big_job' 
+cpus = 24
+memory { 128.GB * task.attempt }
+time { 36.hour * task.attempt } //Very long if you doing short-read polish
+errorStrategy 'retry'
+maxRetries 3
 queue 'batch'
-time '24h'
-        //scratch true
+
+        scratch true
         stageInMode = 'symlink'
         stageOutMode = 'rsync'
 
@@ -14,9 +18,11 @@ time '24h'
         path SR_sample
 
         output:
-        file  "${SampleID_LR}.fastq.gz" optional true 
-        file  "${SampleID_LR}.fasta.gz" optional true 
-        tuple val(SampleID_LR), val(Technology) , emit: LR_sample optional true 
+        path "${SampleID_LR}_PREQC_NanoPlot/*"
+        path "${SampleID_LR}_POSTQC_NanoPlot/*"
+        path "${SampleID_LR}.fastq.gz"
+        path "${SampleID_LR}.fasta.gz"
+        tuple val( SampleID_LR ), val( Technology ), path( "${SampleID_LR}.fastq.gz" ), path( "${SampleID_LR}.fasta.gz" ) , emit: LR_sample  
                 
        script:  
         if ("${Shortread_Avail}" == 'TRUE')
@@ -25,22 +31,36 @@ time '24h'
                 
                 cat ${FASTQ_LR_Dir}/*.fastq.gz > ${SampleID_LR}_PREQC.fastq.gz
 
-                filtlong -1 \$dir/*R1*.fastq.gz  -2 \$dir/*R2*.fastq.gz  --keep_percent 90 --trim --split 500 --mean_q_weight 10 ${SampleID_LR}_PREQC.fastq.gz | gzip > ${SampleID_LR}.fastq.gz
-                
-                seqtk seq -A ${SampleID_LR}.fastq.gz > ${SampleID_LR}.fasta
+                NanoPlot -t $task.cpus --fastq ${SampleID_LR}_PREQC.fastq.gz --outdir ${SampleID_LR}_PREQC_NanoPlot --loglength --plots dot
 
-                bgzip -@ $task.cpus ${SampleID_LR}.fasta 
+                cat \$dir/*R1* > R1.fastq.gz
+                cat \$dir/*R2* > R2.fastq.gz
+
+                filtlong -1 R1.fastq.gz -2 R2.fastq.gz  --keep_percent 90 --trim --split 500 --mean_q_weight 10 ${SampleID_LR}_PREQC.fastq.gz | gzip > ${SampleID_LR}.fastq.gz
+                
+                rm R1.fastq.gz R2.fastq.gz
+                rm -rf ${SampleID_LR}_PREQC.fastq.gz
+
+                NanoPlot -t $task.cpus --fastq ${SampleID_LR}.fastq.gz --outdir ${SampleID_LR}_POSTQC_NanoPlot --loglength --plots dot
+
+                seqtk seq -A ${SampleID_LR}.fastq.gz | bgzip -@ $task.cpus > ${SampleID_LR}.fasta.gz
+
                 """
 
         else if ("${Shortread_Avail}" == 'FALSE')
                 """
                 cat ${FASTQ_LR_Dir}/*.fastq.gz > ${SampleID_LR}_PREQC.fastq.gz
 
+                NanoPlot -t $task.cpus --fastq ${SampleID_LR}_PREQC.fastq.gz --outdir ${SampleID_LR}_PREQC_NanoPlot --loglength --plots dot
+
                 filtlong --keep_percent 90 --mean_q_weight 10 ${SampleID_LR}_PREQC.fastq.gz | gzip > ${SampleID_LR}.fastq.gz
                 
-                seqtk seq -A ${SampleID_LR}.fastq.gz > ${SampleID_LR}.fasta
+                rm -rf ${SampleID_LR}_PREQC.fastq.gz
                 
-                bgzip -@ $task.cpus ${SampleID_LR}.fasta 
+                NanoPlot -t $task.cpus --fastq ${SampleID_LR}.fastq.gz --outdir ${SampleID_LR}_POSTQC_NanoPlot --loglength --plots dot
+
+                seqtk seq -A ${SampleID_LR}.fastq.gz | bgzip -@ $task.cpus > ${SampleID_LR}.fasta.gz
+                
                 """
 }
 

@@ -25,8 +25,8 @@ include { CLAIR3         } from '../modules/clair3'
 include { PEPPER         } from '../modules/pepper'
 include { SNIFFLES2      } from '../modules/sniffles2'
 include { CUTESV         } from '../modules/cutesv'
-//include { MOSDEPTH       } from '../modules/mosdepth' 
-//include { SAMTOOLS_DEPTH } from '../modules/samtools_depth'
+include { MOSDEPTH       } from '../modules/mosdepth' 
+include { SAMTOOLS_DEPTH } from '../modules/samtools_depth'
 include { DYSGU          } from '../modules/dysgu'
 /*
 #==============================================
@@ -78,14 +78,16 @@ workflow SNV_SV_LR {
                 map_bai = NGMLR.out.bai
                 map_info =  NGMLR.out.info 
         }
+        
         // Invoke Clair3
         if (params.enable_clair3){
                 CLAIR3(map_bam, map_bai, genome, genome_index, map_info, ONT_model_path, PB_model_path)
                 }
-        if (params.enable_pepper){
+        if (params.enable_pepper && !params.enable_nanofilt){
                 PEPPER(map_bam, map_bai, genome, genome_index, map_info)
-                }
-        
+                } 
+        // P.E.P.P.E.R won't work with Fasta inputs - hence the exclusion of Nanofilt
+
         // Invoke SVs 
         if (params.enable_sniffles2) {
                 SNIFFLES2(map_bam, map_bai, genome, genome_index, map_info)   
@@ -97,6 +99,6 @@ workflow SNV_SV_LR {
                 DYSGU(map_bam, map_bai, genome, genome_index, map_info)   
                 }
         // Invoke calculate coverage  
-        //MOSDEPTH(map_bam,map_bai,genome,genome_index,map_info)
-        //SAMTOOLS_DEPTH(map_bam,map_bai,map_info)
+        MOSDEPTH(map_bam,map_bai,genome,genome_index,map_info)
+        //SAMTOOLS_DEPTH(map_bam,map_bai,map_info) // Currently disabled due to long running time & large memory requirements for large alignments                
 }

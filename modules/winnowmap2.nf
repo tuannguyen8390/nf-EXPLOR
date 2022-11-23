@@ -9,7 +9,7 @@ time '48h'
         publishDir "$params.Map_Dir/${SampleID}_${Technology}", mode: params.SaveMode, overwrite: params.Overwrite
 
         input:
-        tuple val(SampleID), val(Technology)
+        tuple val(SampleID), val(Technology), path (fastq), path (fasta)
         path genome
         path genome_index
         path wmm_index
@@ -24,13 +24,13 @@ time '48h'
         script:
         if( params.MapMethod == 'Winnowmap2' && "${Technology}" == 'ONT')
         """
-                winnowmap -t $task.cpus -W ${wmm_index} --MD -ax map-ont ${genome} $params.QC_Dir/${SampleID}_${Technology}/${SampleID}.fastq.gz | samtools sort -@ $task.cpus - -o ${SampleID}.sorted.bam 
+                winnowmap -t $task.cpus -W ${wmm_index} --MD -ax map-ont ${genome} ${fastq} | samtools sort -@ $task.cpus - -o ${SampleID}.sorted.bam 
 
                 samtools index -@ $task.cpus ${SampleID}.sorted.bam
         """
         else if( params.MapMethod == 'Winnowmap2' && "${Technology}" == 'PB')
                 """
-                winnowmap -t $task.cpus -W ${wmm_index} --MD -ax map-pb ${genome} $params.QC_Dir/${SampleID}_${Technology}/${SampleID}.fastq.gz | samtools sort -@ $task.cpus - -o ${SampleID}.sorted.bam 
+                winnowmap -t $task.cpus -W ${wmm_index} --MD -ax map-pb ${genome} ${fastq} | samtools sort -@ $task.cpus - -o ${SampleID}.sorted.bam 
                 samtools index -@ $task.cpus ${SampleID}.sorted.bam
                 """
         else

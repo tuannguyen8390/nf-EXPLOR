@@ -40,3 +40,8 @@ then
 fi
 echo "######################################"
 
+# Run check dir for each sample
+python check_design.py ../meta/LR_metadata.csv 11 LR_check.txt
+python check_design.py ../meta/LR_metadata.csv 11 LR_check.txt
+python check_design.py ../meta/LR_metadata.csv 11 LR_check.txt
+

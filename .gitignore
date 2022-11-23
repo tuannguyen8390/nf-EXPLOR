@@ -1,0 +1,12 @@
+.nextflow*
+slurm*
+results/
+work/
+test_results/
+temp/
+modules/work/
+modules/slurm*
+modules/.nextflow/
+modules/.nextflow*
+asset/
+update.sh

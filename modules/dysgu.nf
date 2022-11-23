@@ -1,7 +1,7 @@
 process DYSGU {
 label 'small_job' 
 queue 'batch'
-time '2h'
+time '24h'
 container 'kcleal/dysgu'
 
         scratch true
@@ -32,6 +32,6 @@ container 'kcleal/dysgu'
         """
         temp_file="/tmp/\$RANDOM"
 
-        dysgu call --mode pacbio ${genome} \$temp_file {bam} | gzip - > ${SampleID}.vcf.gz
+        dysgu call --mode pacbio ${genome} \$temp_file ${bam} | gzip - > ${SampleID}.vcf.gz
         """
 }

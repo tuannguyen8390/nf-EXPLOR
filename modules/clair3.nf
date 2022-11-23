@@ -1,7 +1,8 @@
 process CLAIR3 {
-label 'big_job'
+label 'clair3'
 queue 'batch'
 time '400h'
+
 
         scratch true
         stageInMode = 'copy'

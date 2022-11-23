@@ -1,7 +1,7 @@
 process SNIFFLES2 {
-label 'medium_job' 
+label 'big_job' 
 queue 'batch'
-time '6h'
+time '24h'
 
         scratch true
         stageInMode = 'symlink'
