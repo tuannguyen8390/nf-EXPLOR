@@ -6,6 +6,7 @@
 [Tuan Nguyen](tuan.nguyen@agriculture.vic.gov.au)
 
 ###
+![image](https://github.com/tuannguyen8390/AgVic_CLRC/assets/47171822/34f17460-12bf-4426-9ddf-2c09a88225ad)
 
 Initial setup: 
 1. Clone this Github
@@ -13,7 +14,7 @@ Initial setup:
 git clone https://github.com/tuannguyen8390/AgVic_CLRC.git
 ```
 
-Pipeline developed for usage in the Bovine Long-Read Consortium (BovLRC). The pipeline deployed multiple bioinformatics software for the detection of Single Nucldeotide Polymorphism (SNPs) & Structural Variants (SV). The pipeline (version 0.0.2) currently deployed. Written in Nextflow DSL2.
+Pipeline developed for usage in the Bovine Long-Read Consortium (BovLRC). The pipeline deployed multiple bioinformatics software for the detection of Single Nucldeotide Polymorphism (SNPs) & Structural Variants (SV). The pipeline (version 0.0.2) currently deployed. It was designed to deal with data from both Oxford Nanopore as well as PacBio (However we only test at the moment with ONT). Written in Nextflow DSL2.
 
 
 2. Obtain & install Docker/Shifter/Singularity 
@@ -58,33 +59,43 @@ Please refer to these files for editing your own. You can run with your own file
 ## Pipeline overview
 
 1. QC :
-[FiltLong](https://github.com/rrwick/Filtlong) : QC for both LongReads and ShortReads (**DEFAULT**)
 
-[NanoFilt](https://github.com/wdecoster/nanofilt) + [FMLRC2](https://github.com/HudsonAlpha/fmlrc2) : NanoFilt for QC of Long-Read samples, and FMLRC2 + NanoFilt for QC of Short-Read samples .
+- [FiltLong](https://github.com/rrwick/Filtlong) : QC for both LongReads and ShortReads (**DEFAULT**)
+
+-[NanoFilt](https://github.com/wdecoster/nanofilt) + [FMLRC2](https://github.com/HudsonAlpha/fmlrc2) : NanoFilt for QC of Long-Read samples, and FMLRC2 + NanoFilt for QC of Short-Read samples .
 
 2. Mapping:
-[Minimap2](https://github.com/lh3/minimap2) : (**DEFAULT**)
 
-[Winnowmap2](https://github.com/marbl/Winnowmap)
+- [Minimap2](https://github.com/lh3/minimap2) : (**DEFAULT**)
 
-[NGMLR](https://github.com/philres/ngmlr)
+- [Winnowmap2](https://github.com/marbl/Winnowmap)
 
-3. SNP Caller: All callers are run in parallel
-[Clair3](https://github.com/HKU-BAL/Clair3) : (**RECOMMEND FOR DOWNSTREAM ANALYSIS**)
+- [NGMLR](https://github.com/philres/ngmlr)
 
-[PEPPER](https://github.com/kishwarshafin/pepper) - By default, Flowcell < 10.4 will be analyzed with PEPPER
+3. SNP Caller: All callers are run in parallel & deploy per chromosome (1 to 29 & X as the pipe currently deployed in cattle)
+- [Clair3](https://github.com/HKU-BAL/Clair3) : (**RECOMMEND FOR DOWNSTREAM ANALYSIS**)
 
-[DEEPVARIANT](https://github.com/google/deepvariant) - By default, Flowcell >= 10.4 will be analyzed with DEEPVARIANT & HIFI (**RECOMMEND FOR DOWNSTREAM ANALYSIS**)
+- [PEPPER](https://github.com/kishwarshafin/pepper) - By default, Flowcell < 10.4 will be analyzed with PEPPER
 
-[Longshot](https://github.com/pjedge/longshot) 
+- [DEEPVARIANT](https://github.com/google/deepvariant) - By default, Flowcell >= 10.4 will be analyzed with DEEPVARIANT & HIFI (**RECOMMEND FOR DOWNSTREAM ANALYSIS**)
+
+- [Longshot](https://github.com/pjedge/longshot) 
 
 4. SV Caller: All callers are run in parallel
-[Sniffles2](https://github.com/fritzsedlazeck/Sniffles) (**RECOMMEND FOR DOWNSTREAM ANALYSIS**)
 
-[DYSGU](https://github.com/kcleal/dysgu) (**RECOMMEND FOR DOWNSTREAM ANALYSIS**)
+- [Sniffles2](https://github.com/fritzsedlazeck/Sniffles) (**RECOMMEND FOR DOWNSTREAM ANALYSIS**)
 
-[CuteSV2](https://github.com/tjiangHIT/cuteSV) (**RECOMMEND FOR DOWNSTREAM ANALYSIS**)
+- [DYSGU](https://github.com/kcleal/dysgu) (**RECOMMEND FOR DOWNSTREAM ANALYSIS**)
+
+- [CuteSV2](https://github.com/tjiangHIT/cuteSV) (**RECOMMEND FOR DOWNSTREAM ANALYSIS**)
+
+5. Reporting
+- PRE/POST QC : NanoPlot
+- Alignment Depth : Mosdepth
+
+6. Extra process for Nanopore
+- PorechopABI 
 
 ---
 
-If you have any queries, please email to [Tuan Nguyen](mailto:tuan.nguyen@agriculture.vic.gov.au)
+I've absolutely no doubt that there should be some problems :). It runs on my end, but perhaps not yours. If that is the case, please email to [Tuan Nguyen](mailto:tuan.nguyen@agriculture.vic.gov.au)
