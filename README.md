@@ -2,8 +2,10 @@
 
 *Currently deployed for Cattle SVs & SNPs Discovery in the Bovine Long-Read Consortium (BovLRC)
 *
+
 [Tuan Nguyen](tuan.nguyen@agriculture.vic.gov.au)
-##
+
+###
 
 Initial setup: 
 1. Clone this Github
