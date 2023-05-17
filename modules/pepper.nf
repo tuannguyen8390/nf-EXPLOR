@@ -1,54 +1,78 @@
 process PEPPER {
 label 'big_job'
 queue 'batch'
-time '400h'
+time { 36.hour * task.attempt }
+clusterOptions = "--account='dbioanim6'"
         
         scratch true
-        stageInMode = 'copy'
+        //stageInMode = 'copy'
         stageOutMode = 'rsync'
 
         publishDir "$params.SNP_Dir/PEPPER/${SampleID}_${Technology}", mode:params.SaveMode, overwrite:params.Overwrite
 
 
         input:
+        each chr
+        path bed
         path bam
         path bai
         path genome
         path genome_index
-        tuple val(SampleID), val(Technology)
-
-        when:
+        tuple val( SampleID ), val( Technology ), val ( Kit )
 
         output : 
 
         script :
-        if( "${Technology}" == 'ONT')
+        if( "${Technology}" == 'ONT' && "${Kit}" < '1041' )
                 """
+                if [[ ${Kit} -eq 1040 ]] 
+                then
+                        pepper_flag='--ont_r10_q20'
+                elif [[ ${Kit} -eq 941 ]] 
+                then
+                        pepper_flag='--ont_r9_guppy5_sup'
+                fi
+
+                pos=`awk \'\$1==${chr}\' ARS-1.2.bed | awk '{print \$1":"\$2"-"\$3}'`
                 nodeDir=`mktemp -d /tmp/PEPPERXXXXX`
                 echo \$nodeDir
+                echo \$pos
+
                 run_pepper_margin_deepvariant call_variant \
-                        -b "$params.Map_Dir/${SampleID}_${Technology}/${SampleID}.sorted.bam" \
+                        -b ${bam} \
                         -f "${genome}" \
                         -o "\${nodeDir}" \
                         -t $task.cpus \
+                        --sample_name ${SampleID} \
+                        --output_prefix	${SampleID}_${Technology} \
                         --gvcf \
-                        --ont_r9_guppy5_sup
-                mkdir -p $params.SNP_Dir/PEPPER/${SampleID}_${Technology}
-                cp -rf \${nodeDir}/* $params.SNP_Dir/PEPPER/${SampleID}_${Technology}
+                        --region "\${pos}" \
+                        \${pepper_flag}
+                mkdir -p $params.SNP_Dir/PEPPER/${SampleID}_${Technology}/${chr}
+                cp -rf \${nodeDir}/* $params.SNP_Dir/PEPPER/${SampleID}_${Technology}/${chr}
+                """
+        else if( "${Technology}" == 'ONT' && "${Kit}" >= '1041' )
+                """
+                echo "proceed with Deep Variant"
                 """
         else if( "${Technology}" == 'PB')
                 """
+                pos=`awk \'\$1==${chr}\' ARS-1.2.bed | awk '{print \$1":"\$2"-"\$3}'`
                 nodeDir=`mktemp -d /tmp/PEPPERXXXXX`
                 echo \$nodeDir
+                echo \$pos
                 run_pepper_margin_deepvariant call_variant \
-                        -b "$params.Map_Dir/${SampleID}_${Technology}/${SampleID}.sorted.bam" \
+                        -b ${bam} \
                         -f "${genome}" \
                         -o "\${nodeDir}" \
                         -t $task.cpus \
+                        --sample_name ${SampleID} \
+                        --output_prefix	${SampleID}_${Technology} \
                         --gvcf \
+                        --region "\${pos}" \
                         --hifi
-                mkdir -p $params.SNP_Dir/PEPPER/${SampleID}_${Technology}
-                cp -rf \${nodeDir}/* $params.SNP_Dir/PEPPER/${SampleID}_${Technology}
+                mkdir -p $params.SNP_Dir/PEPPER/${SampleID}_${Technology}/${chr}
+                cp -rf \${nodeDir}/* $params.SNP_Dir/PEPPER/${SampleID}_${Technology}/${chr}
                 """
         else
                 """

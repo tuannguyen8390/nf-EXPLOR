@@ -23,6 +23,8 @@ include { NGMLR          } from '../modules/ngmlr.nf'
 include { WINNOWMAP2     } from '../modules/winnowmap2.nf'
 include { CLAIR3         } from '../modules/clair3'
 include { PEPPER         } from '../modules/pepper'
+include { DEEPVARIANT    } from '../modules/deepvariant'
+include { LONGSHOT       } from '../modules/longshot'
 include { SNIFFLES2      } from '../modules/sniffles2'
 include { CUTESV         } from '../modules/cutesv'
 include { MOSDEPTH       } from '../modules/mosdepth' 
@@ -40,26 +42,35 @@ workflow SNV_SV_LR {
 
         main :
         // Channels
-        mm_index = Channel.fromPath("$params.GenomeDir/ARS-bov*.mmi")
-                        .collect()
+        mm_index                = Channel.fromPath("$params.GenomeDir/ARS-bov*.mmi")
+                                        .collect()
 
-        wmm_index = Channel.fromPath("$params.GenomeDir/repetitive_k15.txt")
-                        .collect()
+        wmm_index               = Channel.fromPath("$params.GenomeDir/repetitive_k15.txt")
+                                        .collect()
 
-        genome = Channel.fromPath("$params.GenomeDir/ARS-UCD1.2_Btau5.0.1Y.fa.gz")
-                        .collect()
+        genome                  = Channel.fromPath("$params.GenomeDir/ARS-UCD1.2_Btau5.0.1Y.fa.gz")
+                                        .collect()
 
-        genome_index = Channel.fromPath("$params.GenomeDir/ARS-UCD1.2_Btau5.0.1Y.fa.fai")
-                        .collect()
+        bed                     = Channel.fromPath("$params.GenomeDir/ARS-1.2.bed")
+                                        .collect()
 
-        ONT_model_path = Channel.fromPath("$params.ONT_SNP_model")
-                        .collect()
+        genome_index            = Channel.fromPath("$params.GenomeDir/ARS-UCD1.2_Btau5.0.1Y.fa.fai")
+                                        .collect()
 
-        PB_model_path = Channel.fromPath("$params.PB_SNP_model")
-                        .collect()
+        clair3_model_path       = Channel.fromPath("$params.clair3_model_path")
+                                        .collect()
+
+        // For parallelization purpose
+        chr                   = Channel.of(1..29, 'X')
+                                       .flatten()
+
+        // Testing purpose
+        //chr                     = Channel.of(1..3)
+        //                                .flatten()
 
         // Execution
         // Invoke mapping
+        
         if (params.enable_minimap2){
                 MINIMAP2(LR_sample,genome,genome_index,mm_index)
                 map_bam = MINIMAP2.out.bam
@@ -81,11 +92,20 @@ workflow SNV_SV_LR {
         
         // Invoke Clair3
         if (params.enable_clair3){
-                CLAIR3(map_bam, map_bai, genome, genome_index, map_info, ONT_model_path, PB_model_path)
+                CLAIR3(chr,map_bam, map_bai, genome, genome_index, map_info, clair3_model_path)
                 }
+
+        if (params.enable_longshot){
+                LONGSHOT(chr,map_bam, map_bai, genome, genome_index, map_info)
+                }
+
         if (params.enable_pepper && !params.enable_nanofilt){
-                PEPPER(map_bam, map_bai, genome, genome_index, map_info)
-                } 
+                PEPPER(chr,bed,map_bam, map_bai, genome, genome_index, map_info)
+                }
+
+        if (params.enable_deepvar){
+                DEEPVARIANT(chr,map_bam, map_bai, genome, genome_index, map_info)
+                }  
         // P.E.P.P.E.R won't work with Fasta inputs - hence the exclusion of Nanofilt
 
         // Invoke SVs 
@@ -99,6 +119,8 @@ workflow SNV_SV_LR {
                 DYSGU(map_bam, map_bai, genome, genome_index, map_info)   
                 }
         // Invoke calculate coverage  
-        MOSDEPTH(map_bam,map_bai,genome,genome_index,map_info)
+        if (params.enable_mosdepth) {
+                MOSDEPTH(map_bam,map_bai,genome,genome_index,map_info)
+                }
         //SAMTOOLS_DEPTH(map_bam,map_bai,map_info) // Currently disabled due to long running time & large memory requirements for large alignments                
 }

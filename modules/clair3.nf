@@ -1,8 +1,8 @@
 process CLAIR3 {
-label 'clair3'
+label 'big_job'
 queue 'batch'
-time '400h'
-
+time { 36.hour * task.attempt }
+clusterOptions = "--account='dbioanim6'"
 
         scratch true
         stageInMode = 'copy'
@@ -11,53 +11,76 @@ time '400h'
         publishDir "$params.SNP_Dir/Clair3/${SampleID}_${Technology}", mode:params.SaveMode, overwrite:params.Overwrite
 
         input:
+        each chr
         path bam
         path bai
         path genome
         path genome_index
-        tuple val(SampleID), val(Technology)
-        path ONT_model_path
-        path PB_model_path
+        tuple val(SampleID), val(Technology), val (Kit)
+        path clair3_model_path
 
         output : 
 
         script :
         if( "${Technology}" == 'ONT')
                 """
+                if [[ ${Kit} -eq 1041 ]] 
+                then
+                        ONT_model_path='models/r1041_e82_400bps_sup_g615'
+                elif [[ ${Kit} -eq 1040 ]] 
+                then
+                        ONT_model_path='models/r104_e81_sup_g5015'
+                elif [[ ${Kit} -eq 941 ]] 
+                then
+                        ONT_model_path='models/r941_prom_sup_g5014'
+                fi
+
                 nodeDir=`mktemp -d /tmp/CLAIRXXXXXX`
+                echo \$ONT_model_path
                 echo \$nodeDir
-                run_clair3.sh --bam_fn=$params.Map_Dir/${SampleID}_${Technology}/${SampleID}.sorted.bam \
-                        --ref_fn=${genome}  \
+                zcat $genome > ARS-UCD1.2_Btau5.0.1Y.fa
+
+                run_clair3.sh --bam_fn=${bam} \
+                        --ref_fn=ARS-UCD1.2_Btau5.0.1Y.fa \
                         --threads=$task.cpus \
-                        --platform="ont"\
+                        --platform=ont\
                         --sample_name=${SampleID} \
-                        --model_path=${ONT_model_path} \
-                        --include_all_ctgs \
+                        --model_path=\$ONT_model_path \
+                        --ctg_name=${chr} \
                         --remove_intermediate_dir \
                         --gvcf \
-                        --output=\${nodeDir}
-                mkdir -p $params.SNP_Dir/Clair3/${SampleID}_${Technology}
-                cp -rf \$nodeDir/* $params.SNP_Dir/Clair3/${SampleID}_${Technology}
+                        --output="\${nodeDir}"
+                rm -rf ARS-UCD1.2_Btau5.0.1Y.fa 
+
+                mkdir -p $params.SNP_Dir/Clair3/${SampleID}_${Technology}/${chr}
+                cp -rf \$nodeDir/* $params.SNP_Dir/Clair3/${SampleID}_${Technology}/${chr}
                 """
         else if( "${Technology}" == 'PB')
                 """
+                PB_model_path='models/hifi'
+
                 nodeDir=`mktemp -d /tmp/CLAIRXXXXXX`
+                echo \$PB_model_path
                 echo \$nodeDir
-                run_clair3.sh --bam_fn=$params.Map_Dir/${SampleID}_${Technology}/${SampleID}.sorted.bam \
-                        --ref_fn=${genome}  \
+                zcat $genome > ARS-UCD1.2_Btau5.0.1Y.fa
+
+                run_clair3.sh --bam_fn=${bam} \
+                        --ref_fn=ARS-UCD1.2_Btau5.0.1Y.fa  \
                         --threads=$task.cpus \
-                        --platform="hifi" \
+                        --platform=hifi \
                         --sample_name=${SampleID} \
-                        --model_path=${PB_model_path} \
-                        --include_all_ctgs \
+                        --model_path=\$PB_model_path \
+                        --ctg_name=${chr} \
                         --remove_intermediate_dir \
                         --gvcf \
                         --output=\${nodeDir}
-                mkdir -p $params.SNP_Dir/Clair3/${SampleID}_${Technology}
-                cp -rf \${nodeDir}/* $params.SNP_Dir/Clair3/${SampleID}_${Technology}
+                rm -rf ARS-UCD1.2_Btau5.0.1Y.fa  
+
+                mkdir -p $params.SNP_Dir/Clair3/${SampleID}_${Technology}/${chr}
+                cp -rf \${nodeDir}/* $params.SNP_Dir/Clair3/${SampleID}_${Technology}/${chr}
                 """
         else
                 """
-                error "Invalid alignment mode :  ${SNPCallMethod}"
+                error "Invalid technology : ${Technology}"
                 """
 }

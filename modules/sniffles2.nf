@@ -1,7 +1,10 @@
 process SNIFFLES2 {
-label 'big_job' 
 queue 'batch'
-time '24h'
+cpus = 24
+memory { 64.GB * task.attempt }
+time { 24.hour * task.attempt } 
+errorStrategy 'retry'
+maxRetries 3
 
         scratch true
         stageInMode = 'symlink'
@@ -15,7 +18,7 @@ time '24h'
         path bai
         path genome
         path genome_index
-        tuple val(SampleID), val(Technology)
+        tuple val(SampleID), val(Technology), val (Kit)
 
         output:
         file "*"

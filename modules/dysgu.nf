@@ -1,8 +1,11 @@
 process DYSGU {
-label 'small_job' 
+cpus = 1
+memory { 64.GB * task.attempt }
+time { 24.hour * task.attempt } 
+errorStrategy 'retry'
+maxRetries 3
 queue 'batch'
-time '24h'
-container 'kcleal/dysgu'
+clusterOptions = "--account='dbioanim6'"
 
         scratch true
         stageInMode = 'symlink'
@@ -16,7 +19,7 @@ container 'kcleal/dysgu'
         path bai
         path genome
         path genome_index
-        tuple val(SampleID), val(Technology)
+        tuple val( SampleID ), val( Technology ), val ( Kit )
 
         output:
         file "*.vcf.gz"
@@ -32,6 +35,6 @@ container 'kcleal/dysgu'
         """
         temp_file="/tmp/\$RANDOM"
 
-        dysgu call --mode pacbio ${genome} \$temp_file ${bam} | gzip - > ${SampleID}.vcf.gz
+        dysgu call --mode pacbio ${genome} \$temp_file ${bam} | gzip - > ${SampleID}_${Technology}.vcf.gz
         """
 }
