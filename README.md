@@ -62,7 +62,7 @@ Please refer to these files for editing your own. You can run with your own file
 
 - [FiltLong](https://github.com/rrwick/Filtlong) : QC for both LongReads and ShortReads (**DEFAULT**)
 
--[NanoFilt](https://github.com/wdecoster/nanofilt) + [FMLRC2](https://github.com/HudsonAlpha/fmlrc2) : NanoFilt for QC of Long-Read samples, and FMLRC2 + NanoFilt for QC of Short-Read samples .
+- [NanoFilt](https://github.com/wdecoster/nanofilt) + [FMLRC2](https://github.com/HudsonAlpha/fmlrc2) : NanoFilt for QC of Long-Read samples, and FMLRC2 + NanoFilt for QC of Short-Read samples .
 
 2. Mapping:
 
