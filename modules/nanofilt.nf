@@ -13,7 +13,7 @@ maxRetries 3
         publishDir "$params.QC_Dir/${SampleID_LR}_${Technology}", mode: params.SaveMode, overwrite: params.Overwrite
         
         input:
-        tuple val( SampleID_LR ), val( Technology ), val( Shortread_Avail ), path( FASTQ_LR_Dir )
+        tuple val( SampleID_LR ), val( Technology ), val (Kit), val( Shortread_Avail ), path( FASTQ_LR_Dir )
         path SR_sample
 
         output:
