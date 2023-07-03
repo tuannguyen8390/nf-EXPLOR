@@ -1,4 +1,4 @@
-# Project VALOR (**V**ariant **A**nalysis using **LO**ng **R**ead sequencing) 
+# Project nf-EXPLOR | Nextflow pipeline for EXPloring variation in LOng REad Sequencing
 
 *Currently deployed for Cattle SVs & SNPs Discovery in the Bovine Long-Read Consortium (BovLRC)
 *
