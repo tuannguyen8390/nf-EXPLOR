@@ -15,7 +15,7 @@ time '1h'
 
     script:
     """
-    sed "s|BASEDIR|$baseDir|g" $baseDir/meta/test/test_metadata_SR.cs > test_metadata_SR.csv 
+    sed "s|BASEDIR|$baseDir|g" $baseDir/meta/test/test_metadata_SR.csv > test_metadata_SR.csv 
     sed "s|BASEDIR|$baseDir|g" $baseDir/meta/test/test_metadata_LR.csv > test_metadata_LR.csv
     """
 } 
