@@ -1,8 +1,6 @@
 process CUTESV {
 label 'big_job' 
-queue 'batch'
 time '24h'
-clusterOptions = "--account='dbioanim6'"
 
         scratch true
         stageInMode = 'symlink'

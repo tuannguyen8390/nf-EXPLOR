@@ -1,5 +1,4 @@
 process SNIFFLES2 {
-queue 'batch'
 cpus = 24
 memory { 64.GB * task.attempt }
 time { 24.hour * task.attempt } 

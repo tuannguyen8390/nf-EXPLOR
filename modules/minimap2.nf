@@ -1,8 +1,6 @@
 process MINIMAP2 {
 label 'big_job' 
-queue 'batch'
 time '48h'
-clusterOptions = "--account='dbioanim6'"
 
         scratch true
         stageInMode = 'symlink'

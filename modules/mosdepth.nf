@@ -1,10 +1,6 @@
 process MOSDEPTH {
 label 'medium_job' 
-queue 'batch'
 time '3h'
-clusterOptions = "--account='dbioanim6'"
-
-        beforeScript 'source activate bioinfo'
 
         publishDir "$params.Report_Dir/Read_depth/Mosdepth/${SampleID}", mode:params.SaveMode, overwrite:params.Overwrite
 

@@ -1,10 +1,8 @@
 // SNVs calling settings 
 
 process LONGSHOT {
-label 'big_job'
 queue 'batch'
 time { 8.hour * task.attempt }
-clusterOptions = "--account='dbioanim6'"
 
         //scratch true
         stageInMode = 'copy'

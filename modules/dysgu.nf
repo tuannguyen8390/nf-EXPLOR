@@ -4,8 +4,6 @@ memory { 64.GB * task.attempt }
 time { 24.hour * task.attempt } 
 errorStrategy 'retry'
 maxRetries 3
-queue 'batch'
-clusterOptions = "--account='dbioanim6'"
 
         scratch true
         stageInMode = 'symlink'

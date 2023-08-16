@@ -1,8 +1,6 @@
 process SAMTOOLS_DEPTH {
 label 'high_mem' 
-queue 'batch'
 time '48h'
-clusterOptions = "--account='dbioanim6'"
 
         
         publishDir "$params.Report_Dir/Read_depth/Samtools_depth/${SampleID}", mode:params.SaveMode, overwrite:params.Overwrite

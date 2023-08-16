@@ -1,7 +1,5 @@
 
 process FILTLONG {
-queue 'batch'
-clusterOptions = "--account='dbioanim6'"
 cpus = 24
 memory { 128.GB * task.attempt }
 time { 36.hour * task.attempt } //Very long if you doing short-read polish

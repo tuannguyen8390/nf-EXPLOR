@@ -1,8 +1,6 @@
 process CLAIR3 {
 label 'big_job'
-queue 'batch'
 time { 36.hour * task.attempt }
-clusterOptions = "--account='dbioanim6'"
 
         scratch true
         stageInMode = 'copy'
