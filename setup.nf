@@ -61,7 +61,9 @@ process download_clair3_model {
     script:
     """
     wget http://www.bio8.cs.hku.hk/clair3/clair3_models/clair3_models.tar.gz 
+    wget http://www.bio8.cs.hku.hk/clair3/clair3_models/r1041_e82_400bps_sup_v420.tar.gz
     tar -zxvf clair3_models.tar.gz 
+    tar -zxvf r1041_e82_400bps_sup_v420.tar.gz
     """
 }
 

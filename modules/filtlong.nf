@@ -70,7 +70,10 @@ maxRetries 3
                 """
                 cat ${FASTQ_LR_Dir}/*.fastq.gz > tmp.fastq.gz
 
-                porechop_abi -abi -i tmp.fastq.gz -o ${SampleID_LR}_PREQC.fastq.gz
+                porechop_abi -abi -i tmp.fastq.gz -o ${SampleID_LR}_PREQC.fastq.gz # -tmp
+
+                gunzip -c ${SampleID_LR}_PREQC.fastq.gz  | awk 'BEGIN{FS="\t";OFS=FS;n=1;old=""};\$1!~/^@/{print;next};\$1==old{\$1 = \$1 "_" n;n=n+1;print;next};{old=\$1;n=1;print;next}' > ${SampleID_LR}_PREQC.fastq
+                gzip -f ${SampleID_LR}_PREQC.fastq
 
                 NanoPlot -t $task.cpus --fastq ${SampleID_LR}_PREQC.fastq.gz --outdir ${SampleID_LR}_PREQC_NanoPlot --loglength --plots dot
 
