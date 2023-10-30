@@ -23,6 +23,7 @@ time { 36.hour * task.attempt }
         if( "${Technology}" == 'ONT' && "${Kit}" >= '1041')
                 """
                 deepvariant_flag='ONT_R104'
+                # [ ! -z \${TMPDIR} ] && nodeDir=`mktemp -d \${TMPDIR}/DEEPVARXXXX` || 
                 nodeDir=`mktemp -d /tmp/DEEPVARXXXX`
                 echo \$nodeDir
                 zcat ${genome} > \$nodeDir/ARS-UCD1.2_Btau5.0.1Y.fa

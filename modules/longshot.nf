@@ -1,7 +1,7 @@
 // SNVs calling settings 
 
 process LONGSHOT {
-queue 'batch'
+// queue 'batch' // problems in slurm, as transferred to partition argument --> check
 time { 8.hour * task.attempt }
 
         //scratch true

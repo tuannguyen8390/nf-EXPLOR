@@ -22,9 +22,11 @@ time { 36.hour * task.attempt }
         script :
         if( "${Technology}" == 'ONT')
                 """
+                source activate clair3
                 if [[ ${Kit} -eq 1041 ]] 
                 then
-                        ONT_model_path='models/r1041_e82_400bps_sup_g615'
+                        # ONT_model_path='models/r1041_e82_400bps_sup_g615'
+                        ONT_model_path='models/r1041_e82_400bps_sup_v420'
                 elif [[ ${Kit} -eq 1040 ]] 
                 then
                         ONT_model_path='models/r104_e81_sup_g5015'
