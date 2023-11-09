@@ -12,10 +12,16 @@ time '3h'
         tuple val(SampleID), val(Technology), val (Kit)
 
         output:
-        file "*.txt"
-
+        tuple val(SampleID), val(Technology), val (Kit)  , emit: map_info  
+        file "*"
+        
         script:
         """
-        mosdepth  --threads $task.cpus -n --fasta params.GenomeDir/ARS-UCD1.2_Btau5.0.1Y.fa ${SampleID}_${Technology} ${bam}
+        mosdepth  --threads $task.cpus \
+                  -n \
+                  --by 1000 \
+                  --fasta ${genome} \
+                  ${SampleID}_${Technology} \
+                  ${bam}
         """
 }

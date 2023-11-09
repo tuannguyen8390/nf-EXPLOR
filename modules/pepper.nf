@@ -31,7 +31,7 @@ time { 36.hour * task.attempt }
                         pepper_flag='--ont_r9_guppy5_sup'
                 fi
 
-                pos=`awk \'\$1==${chr}\' ARS-1.2.bed | awk '{print \$1":"\$2"-"\$3}'`
+                pos=`awk \'\$1==${chr}\' ARS-2.0.bed | awk '{print \$1":"\$2"-"\$3}'`
                 nodeDir=`mktemp -d /tmp/PEPPERXXXXX`
                 echo \$nodeDir
                 echo \$pos
@@ -55,7 +55,7 @@ time { 36.hour * task.attempt }
                 """
         else if( "${Technology}" == 'PB')
                 """
-                pos=`awk \'\$1==${chr}\' ARS-1.2.bed | awk '{print \$1":"\$2"-"\$3}'`
+                pos=`awk \'\$1==${chr}\' ARS-2.0.bed | awk '{print \$1":"\$2"-"\$3}'`
                 nodeDir=`mktemp -d /tmp/PEPPERXXXXX`
                 echo \$nodeDir
                 echo \$pos

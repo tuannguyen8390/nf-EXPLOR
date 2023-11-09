@@ -1,5 +1,5 @@
 process CREATE_LR_QC{
-    errorStrategy 'terminate'
+        errorStrategy 'terminate'
         scratch true
         stageInMode = 'symlink'
         stageOutMode = 'rsync'

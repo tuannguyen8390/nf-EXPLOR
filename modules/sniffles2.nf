@@ -26,8 +26,8 @@ maxRetries 3
         """
         sniffles --input ${bam} --vcf ${SampleID}_SV.vcf --snf ${SampleID}.snf --output-rnames --threads $task.cpus
         
-        gzip ${SampleID}_SV.vcf
-        gzip ${SampleID}.snf
+        bgzip -@ $task.cpus ${SampleID}_SV.vcf
+        bgzip -@ $task.cpus ${SampleID}.snf
         """
 }
 

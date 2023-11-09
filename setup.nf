@@ -30,8 +30,7 @@ process download_genome {
 
     script:
     """
-    wget https://bovlrctest.s3.amazonaws.com/ARS-UCD1.2_Btau5.0.1Y.fa.gz
-    wget https://bovlrctest.s3.amazonaws.com/ARS-UCD1.2_Btau5.0.1Y.fa.fai
+    wget https://bovlrc.s3.amazonaws.com/ARS_UCD_v2.0.fa.gz
     """
 }
 
@@ -44,7 +43,7 @@ process download_asset {
 
     script:
     """
-    wget https://bovlrctest.s3.amazonaws.com/asset.zip
+    wget https://bovlrc.s3.amazonaws.com/asset.zip
     unzip asset.zip    
     """
 }
@@ -80,9 +79,12 @@ time '3h'
 
     script:
     """
-    minimap2 -x map-ont -d ARS-bov-ont.mmi ARS-UCD1.2_Btau5.0.1Y.fa.gz
-    minimap2 -x map-pb -d ARS-bov-pb.mmi ARS-UCD1.2_Btau5.0.1Y.fa.gz
-    meryl count k=15 output merylDB ARS-UCD1.2_Btau5.0.1Y.fa.gz
+    python $baseDir/bin/fasta_to_bed.py ARS_UCD_v2.0.fa.gz ARS-2.0.bed
+    zcat ARS_UCD_v2.0.fa.gz > ARS_UCD_v2.0.fa
+    samtools faidx ARS_UCD_v2.0.fa
+    minimap2 -x map-ont -d ARS-bov-ont.mmi ARS_UCD_v2.0.fa
+    minimap2 -x map-hifi -d ARS-bov-hifi.mmi ARS_UCD_v2.0.fa
+    meryl count k=15 output merylDB ARS_UCD_v2.0.fa
     meryl print greater-than distinct=0.9998 merylDB > repetitive_k15.txt
     """
 }
@@ -102,7 +104,7 @@ time '1h'
 
     script:
     """
-    gatk CreateSequenceDictionary -R ARS-UCD1.2_Btau5.0.1Y.fa.gz
+    gatk CreateSequenceDictionary -R ARS_UCD_v2.0.fa.gz
     """
 } 
 

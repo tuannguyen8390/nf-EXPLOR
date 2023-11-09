@@ -30,6 +30,8 @@ include { CUTESV         } from '../modules/cutesv'
 include { MOSDEPTH       } from '../modules/mosdepth' 
 include { SAMTOOLS_DEPTH } from '../modules/samtools_depth'
 include { DYSGU          } from '../modules/dysgu'
+include { MULTIQC        } from '../modules/multiqc'
+
 /*
 #==============================================
 Define main workflow
@@ -48,13 +50,13 @@ workflow SNV_SV_LR {
         wmm_index               = Channel.fromPath("$params.GenomeDir/repetitive_k15.txt")
                                         .collect()
 
-        genome                  = Channel.fromPath("$params.GenomeDir/ARS-UCD1.2_Btau5.0.1Y.fa.gz")
+        genome                  = Channel.fromPath("$params.GenomeDir/ARS_UCD_v2.0.fa")
                                         .collect()
 
-        bed                     = Channel.fromPath("$params.GenomeDir/ARS-1.2.bed")
+        bed                     = Channel.fromPath("$params.GenomeDir/ARS-2.0.bed")
                                         .collect()
 
-        genome_index            = Channel.fromPath("$params.GenomeDir/ARS-UCD1.2_Btau5.0.1Y.fa.fai")
+        genome_index            = Channel.fromPath("$params.GenomeDir/ARS_UCD_v2.0.fa.fai")
                                         .collect()
 
         clair3_model_path       = Channel.fromPath("$params.clair3_model_path")
@@ -92,15 +94,15 @@ workflow SNV_SV_LR {
         
         // Invoke Clair3
         if (params.enable_clair3){
-                CLAIR3(chr,map_bam, map_bai, genome, genome_index, map_info, clair3_model_path)
+                CLAIR3(chr, map_bam, map_bai, genome, genome_index, map_info, clair3_model_path)
                 }
 
         if (params.enable_longshot){
-                LONGSHOT(chr,map_bam, map_bai, genome, genome_index, map_info)
+                LONGSHOT(chr, map_bam, map_bai, genome, genome_index, map_info)
                 }
 
         if (params.enable_pepper && !params.enable_nanofilt){
-                PEPPER(chr,bed,map_bam, map_bai, genome, genome_index, map_info)
+                PEPPER(chr, bed, map_bam, map_bai, genome, genome_index, map_info)
                 }
 
         if (params.enable_deepvar){
@@ -120,7 +122,10 @@ workflow SNV_SV_LR {
                 }
         // Invoke calculate coverage  
         if (params.enable_mosdepth) {
-                MOSDEPTH(map_bam,map_bai,genome,genome_index,map_info)
+                MOSDEPTH(map_bam, map_bai, genome, genome_index, map_info)
                 }
-        //SAMTOOLS_DEPTH(map_bam,map_bai,map_info) // Currently disabled due to long running time & large memory requirements for large alignments                
+        //SAMTOOLS_DEPTH(map_bam,map_bai,map_info) // Currently disabled due to long running time & large memory requirements for large alignments            
+        
+        MULTIQC(MOSDEPTH.out.map_info.collect())    
+        
 }

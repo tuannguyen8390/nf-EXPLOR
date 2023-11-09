@@ -36,10 +36,9 @@ time { 36.hour * task.attempt }
                 nodeDir=`mktemp -d /tmp/CLAIRXXXXXX`
                 echo \$ONT_model_path
                 echo \$nodeDir
-                zcat $genome > ARS-UCD1.2_Btau5.0.1Y.fa
 
                 run_clair3.sh --bam_fn=${bam} \
-                        --ref_fn=ARS-UCD1.2_Btau5.0.1Y.fa \
+                        --ref_fn=${genome} \
                         --threads=$task.cpus \
                         --platform=ont\
                         --sample_name=${SampleID} \
@@ -48,7 +47,6 @@ time { 36.hour * task.attempt }
                         --remove_intermediate_dir \
                         --gvcf \
                         --output="\${nodeDir}"
-                rm -rf ARS-UCD1.2_Btau5.0.1Y.fa 
 
                 mkdir -p $params.SNP_Dir/Clair3/${SampleID}_${Technology}/${chr}
                 cp -rf \$nodeDir/* $params.SNP_Dir/Clair3/${SampleID}_${Technology}/${chr}
@@ -60,10 +58,9 @@ time { 36.hour * task.attempt }
                 nodeDir=`mktemp -d /tmp/CLAIRXXXXXX`
                 echo \$PB_model_path
                 echo \$nodeDir
-                zcat $genome > ARS-UCD1.2_Btau5.0.1Y.fa
 
                 run_clair3.sh --bam_fn=${bam} \
-                        --ref_fn=ARS-UCD1.2_Btau5.0.1Y.fa  \
+                        --ref_fn=${genome} \
                         --threads=$task.cpus \
                         --platform=hifi \
                         --sample_name=${SampleID} \
@@ -72,7 +69,7 @@ time { 36.hour * task.attempt }
                         --remove_intermediate_dir \
                         --gvcf \
                         --output=\${nodeDir}
-                rm -rf ARS-UCD1.2_Btau5.0.1Y.fa  
+                rm -rf ARS-2.0.fa  
 
                 mkdir -p $params.SNP_Dir/Clair3/${SampleID}_${Technology}/${chr}
                 cp -rf \${nodeDir}/* $params.SNP_Dir/Clair3/${SampleID}_${Technology}/${chr}

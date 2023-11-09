@@ -4,3 +4,4 @@ rm -rf .nextflow/
 rm -rf .nextflow.log*
 rm -rf slurm-*.out
 rm -rf test_results/
+rm -rf asset/

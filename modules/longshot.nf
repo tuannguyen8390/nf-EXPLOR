@@ -1,10 +1,10 @@
 // SNVs calling settings 
 
 process LONGSHOT {
-queue 'batch'
 time { 8.hour * task.attempt }
 
         //scratch true
+        scratch true
         stageInMode = 'copy'
         stageOutMode = 'rsync'
         
@@ -23,9 +23,7 @@ time { 8.hour * task.attempt }
 
         script:
         """
-        source activate ONT
-        zcat $genome > ARS-UCD1.2_Btau5.0.1Y.fa
-        longshot --bam $bam --ref ARS-UCD1.2_Btau5.0.1Y.fa --region ${chr} --out ${SampleID}_${Technology}_${chr}.vcf
+        longshot --bam $bam --ref ${genome} --region ${chr} --out ${SampleID}_${Technology}_${chr}.vcf
         bgzip ${SampleID}_${Technology}_${chr}.vcf
         """
 }

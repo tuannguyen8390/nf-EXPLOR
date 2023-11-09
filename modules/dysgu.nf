@@ -24,15 +24,15 @@ maxRetries 3
 
         script:
         if( "${Technology}" == 'ONT' ) 
-        """
-        temp_file="/tmp/\$RANDOM"
+                """
+                temp_file="/tmp/\$RANDOM"
 
-        dysgu call --mode nanopore ${genome} \$temp_file ${bam} | gzip - > ${SampleID}_${Technology}.vcf.gz
-        """
+                dysgu call --mode nanopore ${genome} \$temp_file ${bam} |  bgzip -@ $task.cpus - > ${SampleID}_${Technology}.vcf.gz
+                """
         else if( "${Technology}" == 'PB') 
-        """
-        temp_file="/tmp/\$RANDOM"
+                """
+                temp_file="/tmp/\$RANDOM"
 
-        dysgu call --mode pacbio ${genome} \$temp_file ${bam} | gzip - > ${SampleID}_${Technology}.vcf.gz
-        """
+                dysgu call --mode pacbio ${genome} \$temp_file ${bam} |  bgzip -@ $task.cpus - > ${SampleID}_${Technology}.vcf.gz
+                """
 }

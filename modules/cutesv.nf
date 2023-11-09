@@ -20,7 +20,7 @@ time '24h'
 
         script:
         """
-        zcat ${genome} > genome.fa
+        
         cuteSV --threads $task.cpus \
                 --genotype \
                 --max_cluster_bias_INS 100 \
@@ -29,10 +29,10 @@ time '24h'
 	        --diff_ratio_merging_DEL 0.3 \
                 --sample ${SampleID} \
                 --report_readid ${bam} \
-                genome.fa \
+                ${genome} \
                 ${SampleID}_${Technology}.vcf \
                 .
 
-        gzip ${SampleID}_${Technology}.vcf
+        bgzip -@ $task.cpu ${SampleID}_${Technology}.vcf
         """
 }

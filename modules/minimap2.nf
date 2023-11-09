@@ -8,7 +8,7 @@ time '48h'
         publishDir "$params.Map_Dir/${SampleID}_${Technology}", mode: params.SaveMode, overwrite: params.Overwrite
 
         input:
-        tuple val( SampleID ), val( Technology ), val (Kit), path ( fastq ), path ( fasta )
+        tuple val( SampleID ), val( Technology ), val ( Kit ), path ( fastq ), path ( fasta )
         path genome
         path genome_index
         path mm_index
@@ -16,7 +16,7 @@ time '48h'
         output:
         path "*.sorted.bam", emit: bam
         path "*.sorted.bam.bai", emit: bai
-        tuple val (SampleID ), val( Technology ), val (Kit), emit: info
+        tuple val ( SampleID ), val( Technology ), val ( Kit ), emit: info
 
         script:
         
@@ -27,7 +27,7 @@ time '48h'
             """
         else if( params.MapMethod == 'Minimap2' && "${Technology}" == 'PB') 
             """
-            minimap2 -ax map-pb ARS-bov-pb.mmi -t $task.cpus ${fastq} --MD | samtools sort -@ $task.cpus - -o ${SampleID}.sorted.bam  
+            minimap2 -ax map-hifi ARS-bov-hifi.mmi -t $task.cpus ${fastq} --MD | samtools sort -@ $task.cpus - -o ${SampleID}.sorted.bam  
             samtools index -@ $task.cpus ${SampleID}.sorted.bam          
             """
         else
