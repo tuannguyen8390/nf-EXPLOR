@@ -65,14 +65,14 @@ Please refer to these files in the `nextflow.config`. Simply forking/cloning the
 
 2. Mapping:
 
-- [Minimap2](https://github.com/lh3/minimap2) : (**DEFAULT**)
+- [Minimap2](https://github.com/lh3/minimap2) : (**DEFAULT for BovLRC participants**)
 
 - [Winnowmap2](https://github.com/marbl/Winnowmap)
 
 - [NGMLR](https://github.com/philres/ngmlr)
 
 3. SNP Caller: All callers can be run in parallel & deploy per chromosome ( Chr 1 - 29 & X as the pipe currently deployed in cattle )
-- [Clair3](https://github.com/HKU-BAL/Clair3) : (**RECOMMEND FOR DOWNSTREAM ANALYSIS**)
+- [Clair3](https://github.com/HKU-BAL/Clair3) : (**DEFAULT for BovLRC participants**)
 
 - [PEPPER](https://github.com/kishwarshafin/pepper) - By default, Flowcell < 10.4 will be analyzed with PEPPER
 
@@ -82,7 +82,7 @@ Please refer to these files in the `nextflow.config`. Simply forking/cloning the
 
 4. SV Caller: All callers can be run in parallel
 
-- [Sniffles2](https://github.com/fritzsedlazeck/Sniffles) (**RECOMMEND FOR DOWNSTREAM ANALYSIS**)
+- [Sniffles2](https://github.com/fritzsedlazeck/Sniffles) (**DEFAULT for BovLRC participants**)
 
 - [DYSGU](https://github.com/kcleal/dysgu)
 
