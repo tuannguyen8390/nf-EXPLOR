@@ -7,7 +7,7 @@ v.0.0.2 - [Tuan Nguyen](tuan.nguyen@agriculture.vic.gov.au)
 ## 1. Clone this Github
 
 ```
-git clone https://github.com/tuannguyen8390/AgVic_CLRC.git
+git clone https://github.com/tuannguyen8390/nf-EXPLOR.git
 ```
 
 The pipeline deployed multiple bioinformatics software for the detection of Single Nucldeotide Polymorphism (SNPs) & Structural Variants (SVs). The pipeline (version 0.0.3) currently freely available & it was designed to deal with data from both Oxford Nanopore as well as PacBio (However we only test at the moment with ONT). Written with Nextflow DSL2.
