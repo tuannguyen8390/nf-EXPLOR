@@ -1,7 +1,8 @@
 // SNVs calling settings 
 
 process LONGSHOT {
-time { 8.hour * task.attempt }
+time { 24.hour * task.attempt }
+label 'medium_job'
 
         //scratch true
         scratch true

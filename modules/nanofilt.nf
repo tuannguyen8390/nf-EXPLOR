@@ -1,6 +1,5 @@
 process NANOFILT {
-cpus = 24
-memory '128 GB'
+label 'big_job'
 time '72h'
 errorStrategy 'retry'
 maxRetries 3

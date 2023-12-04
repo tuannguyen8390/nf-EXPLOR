@@ -1,6 +1,6 @@
 process DEEPVARIANT {
-label 'big_job'
-time { 36.hour * task.attempt }
+label 'medium_job'
+time { 24.hour * task.attempt }
         
         scratch true
         stageInMode = 'copy'

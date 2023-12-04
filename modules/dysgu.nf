@@ -1,7 +1,6 @@
 process DYSGU {
-cpus = 1
-memory { 64.GB * task.attempt }
-time { 24.hour * task.attempt } 
+label 'small_job'
+time { 12.hour * task.attempt } 
 errorStrategy 'retry'
 maxRetries 3
 

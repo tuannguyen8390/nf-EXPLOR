@@ -1,6 +1,5 @@
 process SNIFFLES2 {
-cpus = 24
-memory { 64.GB * task.attempt }
+label 'medium_job'
 time { 24.hour * task.attempt } 
 errorStrategy 'retry'
 maxRetries 3

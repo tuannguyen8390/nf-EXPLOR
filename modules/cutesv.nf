@@ -1,6 +1,6 @@
 process CUTESV {
-label 'big_job' 
-time '24h'
+label 'medium_job' 
+time { 12.hour * task.attempt } 
 
         scratch true
         stageInMode = 'symlink'

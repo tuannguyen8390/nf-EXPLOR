@@ -95,6 +95,7 @@ nextflow run main.nf -profile shifter/docker/singularity,awsbatch
 - [CuteSV2](https://github.com/tjiangHIT/cuteSV) 
 
 ## 5. Reporting
+
 - PRE/POST QC : NanoPlot
 - Alignment Depth : Mosdepth
 - MultiQC
