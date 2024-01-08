@@ -65,20 +65,20 @@ nextflow run main.nf -profile shifter/docker/singularity,awsbatch
 
 ## 1. QC :
 
-- [FiltLong](https://github.com/rrwick/Filtlong) : QC for both LongReads and ShortReads (:triangular_flag_on_post: **DEFAULT + RECOMMENDED**)
+- [FiltLong](https://github.com/rrwick/Filtlong) : QC for both LongReads and ShortReads ( **DEFAULT + RECOMMENDED**)
 
 - [NanoFilt](https://github.com/wdecoster/nanofilt) + [FMLRC2](https://github.com/HudsonAlpha/fmlrc2) : NanoFilt for QC of Long-Read samples, and FMLRC2 + NanoFilt for QC of Short-Read samples ( Currently **NOT _COMPATIBLE_** with PEPPER & DEEPVARIANT - use with caution !!!)
 
 ## 2. Mapping:
 
-- [Minimap2](https://github.com/lh3/minimap2) : (:triangular_flag_on_post: **DEFAULT for BovLRC participants**)
+- [Minimap2](https://github.com/lh3/minimap2) : ( **DEFAULT for BovLRC participants**)
 
 - [Winnowmap2](https://github.com/marbl/Winnowmap)
 
 - [NGMLR](https://github.com/philres/ngmlr)
 
 ## 3. SNP Caller: All callers can be run in parallel & deploy per chromosome ( Chr 1 - 29 & X as the pipe currently deployed in cattle )
-- [Clair3](https://github.com/HKU-BAL/Clair3) : (:triangular_flag_on_post: **DEFAULT for BovLRC participants**)
+- [Clair3](https://github.com/HKU-BAL/Clair3) : ( **DEFAULT for BovLRC participants**)
 
 - [PEPPER](https://github.com/kishwarshafin/pepper) - By default, Flowcell < 10.4 will be analyzed with PEPPER
 
@@ -88,7 +88,7 @@ nextflow run main.nf -profile shifter/docker/singularity,awsbatch
 
 ## 4. SV Caller: All callers can be run in parallel
 
-- [Sniffles2](https://github.com/fritzsedlazeck/Sniffles) (:triangular_flag_on_post: **DEFAULT for BovLRC participants**)
+- [Sniffles2](https://github.com/fritzsedlazeck/Sniffles) ( **DEFAULT for BovLRC participants**)
 
 - [DYSGU](https://github.com/kcleal/dysgu)
 
