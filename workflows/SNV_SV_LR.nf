@@ -63,7 +63,7 @@ workflow SNV_SV_LR {
                                         .collect()
 
         // For parallelization purpose
-        chr                   = Channel.of(1..29, 'X')
+        chr                   = Channel.of(1..29, 'X', 'Y')
                                        .flatten()
 
         // Testing purpose
