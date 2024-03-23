@@ -22,8 +22,10 @@ include { MINIMAP2       } from '../modules/minimap2.nf'
 include { NGMLR          } from '../modules/ngmlr.nf'
 include { WINNOWMAP2     } from '../modules/winnowmap2.nf'
 include { CLAIR3         } from '../modules/clair3'
+include { CLAIR3_Y       } from '../modules/clair3'
 include { PEPPER         } from '../modules/pepper'
 include { DEEPVARIANT    } from '../modules/deepvariant'
+include { DEEPVARIANT_Y  } from '../modules/deepvariant'
 include { LONGSHOT       } from '../modules/longshot'
 include { SNIFFLES2      } from '../modules/sniffles2'
 include { CUTESV         } from '../modules/cutesv'
@@ -61,10 +63,12 @@ workflow SNV_SV_LR {
 
         clair3_model_path       = Channel.fromPath("$params.clair3_model_path")
                                         .collect()
+        
 
-        // For parallelization purpose
-        chr                   = Channel.of(1..29, 'X', 'Y')
+        //For parallelization purpose
+        chr                   = Channel.of(1..29, 'X')
                                        .flatten()
+        chrY                  = Channel.of('Y')
 
         // Testing purpose
         //chr                     = Channel.of(1..3)
@@ -95,6 +99,7 @@ workflow SNV_SV_LR {
         // Invoke Clair3
         if (params.enable_clair3){
                 CLAIR3(chr, map_bam, map_bai, genome, genome_index, map_info, clair3_model_path)
+                CLAIR3_Y(map_bam, map_bai, genome, genome_index, map_info, clair3_model_path)
                 }
 
         if (params.enable_longshot){
@@ -107,6 +112,7 @@ workflow SNV_SV_LR {
 
         if (params.enable_deepvar){
                 DEEPVARIANT(chr,map_bam, map_bai, genome, genome_index, map_info)
+                DEEPVARIANT_Y(map_bam, map_bai, genome, genome_index, map_info)
                 }  
         // P.E.P.P.E.R won't work with Fasta inputs - hence the exclusion of Nanofilt
 

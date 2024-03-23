@@ -17,7 +17,7 @@ label 'medium_job'
         path bai
         path genome
         path genome_index
-        tuple val( SampleID ), val( Technology ), val ( Kit )
+        tuple val( SampleID ), val( Technology ), val ( Kit ), val ( Sex ) 
 
         output : 
         path "${SampleID}_${Technology}_${chr}.vcf.gz" 

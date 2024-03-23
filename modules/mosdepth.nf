@@ -9,10 +9,10 @@ time '3h'
         path bai
         path genome
         path genome_index
-        tuple val(SampleID), val(Technology), val (Kit)
+        tuple val(SampleID), val(Technology), val (Kit), val ( Sex )
 
         output:
-        tuple val(SampleID), val(Technology), val (Kit)  , emit: map_info  
+        tuple val(SampleID), val(Technology), val (Kit), val ( Sex )  , emit: map_info  
         file "*"
         
         script:

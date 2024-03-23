@@ -31,7 +31,7 @@ include { SNV_SV_LR     }       from './workflows/SNV_SV_LR' addParams(options: 
 // Primary channels
         Channel.fromPath(params.LR_MetaDir)
                  .splitCsv(header:true)
-                 .map{ row-> tuple("$row.SampleID"),("$row.Technology"),("$row.Kit"),("$row.Shortread_Avail"), file("$row.FASTQ_LR_Dir")}
+                 .map{ row-> tuple("$row.SampleID"),("$row.Technology"),("$row.Kit"),("$row.Sex"),("$row.Shortread_Avail"), file("$row.FASTQ_LR_Dir")}
                  .set {LR_sample_ch}
 
         Channel.fromPath(params.SR_MetaDir)

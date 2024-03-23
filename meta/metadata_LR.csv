@@ -1,1 +1,1 @@
-SampleID,Technology,Kit,IntID,Breed,Sex,Sire_IntID,Dam_IntID,BioSampleID,BioProjectID,Shortread_Avail,FASTQ_LR_Dir
+SampleID,Technology,Kit,NatID,IntID,Breed,Sex,Sire_IntID,Dam_IntID,BioSampleID,BioProjectID,Shortread_Avail,FASTQ_LR_Dir,

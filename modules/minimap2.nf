@@ -8,7 +8,7 @@ time '48h'
         publishDir "$params.Map_Dir/${SampleID}_${Technology}", mode: params.SaveMode, overwrite: params.Overwrite
 
         input:
-        tuple val( SampleID ), val( Technology ), val ( Kit ), path ( fastq ), path ( fasta )
+        tuple val( SampleID ), val( Technology ), val ( Kit ), val (Sex), path ( fastq ), path ( fasta )
         path genome
         path genome_index
         path mm_index
@@ -16,7 +16,7 @@ time '48h'
         output:
         path "*.sorted.bam", emit: bam
         path "*.sorted.bam.bai", emit: bai
-        tuple val ( SampleID ), val( Technology ), val ( Kit ), emit: info
+        tuple val ( SampleID ), val( Technology ), val ( Kit ), val ( Sex ) , emit: info
 
         script:
         

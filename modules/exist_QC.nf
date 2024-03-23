@@ -5,12 +5,12 @@ process CREATE_LR_QC{
         stageOutMode = 'rsync'
 
         input:
-        tuple val( SampleID_LR ), val( Technology ), val ( Kit ), val( Shortread_Avail ), path( FASTQ_LR_Dir )
+        tuple val( SampleID_LR ), val( Technology ), val ( Kit ), val ( Sex ) ,val( Shortread_Avail ), path( FASTQ_LR_Dir )
         path SR_sample
         path params.QC_Dir
 
         output:
-        tuple val( SampleID_LR ), val( Technology ) , val ( Kit ), path ( "${SampleID_LR}.fastq.gz" ),  path ( "${SampleID_LR}.fasta.gz" ), emit: LR_sample optional true
+        tuple val( SampleID_LR ), val( Technology ) , val ( Kit ), val ( Sex ),  path ( "${SampleID_LR}.fastq.gz" ),  path ( "${SampleID_LR}.fasta.gz" ), emit: LR_sample optional true
 
         script:
         """

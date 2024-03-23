@@ -16,7 +16,7 @@ time { 36.hour * task.attempt }
         path bai
         path genome
         path genome_index
-        tuple val( SampleID ), val( Technology ), val ( Kit )
+        tuple val( SampleID ), val( Technology ), val ( Kit ), val ( Sex ) 
 
         output : 
 

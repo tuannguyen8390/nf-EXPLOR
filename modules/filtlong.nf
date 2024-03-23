@@ -12,7 +12,7 @@ maxRetries 3
         publishDir "$params.QC_Dir/${SampleID_LR}_${Technology}", mode: params.SaveMode, overwrite: params.Overwrite
 
         input:
-        tuple val( SampleID_LR ), val( Technology ), val (Kit), val( Shortread_Avail ), path( FASTQ_LR_Dir )
+        tuple val( SampleID_LR ), val( Technology ), val (Kit), val ( Sex ), val( Shortread_Avail ), path( FASTQ_LR_Dir )
         path SR_sample
 
         output:
@@ -20,7 +20,7 @@ maxRetries 3
         path "${SampleID_LR}_POSTQC/*"
         path "${SampleID_LR}.fastq.gz"
         path "${SampleID_LR}.fasta.gz"
-        tuple val( SampleID_LR ), val( Technology ), val (Kit), path( "${SampleID_LR}.fastq.gz" ), path( "${SampleID_LR}.fasta.gz" ) , emit: LR_sample  
+        tuple val( SampleID_LR ), val( Technology ), val (Kit), val ( Sex ) , path( "${SampleID_LR}.fastq.gz" ), path( "${SampleID_LR}.fasta.gz" ) , emit: LR_sample  
                 
         script:  
         if ("${Shortread_Avail}" == 'TRUE' && "${Technology}" == 'ONT')
