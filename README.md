@@ -77,7 +77,7 @@ nextflow run main.nf -profile shifter/docker/singularity,awsbatch
 
 - [NGMLR](https://github.com/philres/ngmlr)
 
-## 3. SNP Caller: All callers can be run in parallel & deploy per chromosome ( Chr 1 - 29 & X as the pipe currently deployed in cattle )
+## 3. SNP Caller: All callers can be run in parallel & deploy per chromosome ( Chr 1 - 29 & X & Y as the pipe currently deployed in cattle )
 - [Clair3](https://github.com/HKU-BAL/Clair3) : ( **DEFAULT for BovLRC participants**) - Please note that extra ONT models can be found on [Clair3_rerio_models](https://github.com/nanoporetech/rerio/tree/master/clair3_models)
  
 - [PEPPER](https://github.com/kishwarshafin/pepper) - By default, Flowcell < 10.4 will be analyzed with PEPPER
