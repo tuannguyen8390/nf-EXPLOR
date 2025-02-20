@@ -1,7 +1,9 @@
 process PEPPER {
 label 'big_job'
 time { 36.hour * task.attempt }
-        
+errorStrategy 'retry'
+maxRetries 3
+
         scratch true
         //stageInMode = 'copy'
         stageOutMode = 'rsync'

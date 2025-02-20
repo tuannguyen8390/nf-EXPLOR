@@ -5,7 +5,7 @@ process make_sample_meta {
 label 'single_cpu_job' 
 queue 'batch'
 time '1h'  
-    publishDir "meta/test", mode: 'copy'
+    publishDir "asset/test", mode: 'copy'
 
     input:
 

@@ -13,6 +13,6 @@ process MULTIQC {
 
         script:
         """
-        multiqc -f $params.Report_Dir/Read_depth/Mosdepth/ $params.QC_Dir/
+        multiqc --ignore "*PREQC*" -f $params.Report_Dir/Read_depth/Mosdepth/ $params.QC_Dir/
         """
 }

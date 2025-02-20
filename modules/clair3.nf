@@ -2,6 +2,7 @@ process CLAIR3 {
 label 'medium_job'
 time { 24.hour * task.attempt }
 
+
         scratch true
         stageInMode = 'copy'
         stageOutMode = 'rsync'
@@ -84,6 +85,7 @@ time { 24.hour * task.attempt }
 process CLAIR3_Y {
 label 'medium_job'
 time { 24.hour * task.attempt }
+
 
         scratch true
         stageInMode = 'copy'

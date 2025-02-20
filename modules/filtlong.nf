@@ -1,7 +1,7 @@
 
 process FILTLONG {
 label 'big_job'
-time '72h'
+time { 72d.hour * task.attempt }
 errorStrategy 'retry'
 maxRetries 3
 
@@ -18,8 +18,8 @@ maxRetries 3
         output:
         path "${SampleID_LR}_PREQC/*"
         path "${SampleID_LR}_POSTQC/*"
-        path "${SampleID_LR}.fastq.gz"
-        path "${SampleID_LR}.fasta.gz"
+        //path "${SampleID_LR}.fastq.gz"
+        //path "${SampleID_LR}.fasta.gz"
         tuple val( SampleID_LR ), val( Technology ), val (Kit), val ( Sex ) , path( "${SampleID_LR}.fastq.gz" ), path( "${SampleID_LR}.fasta.gz" ) , emit: LR_sample  
                 
         script:  
@@ -34,7 +34,7 @@ maxRetries 3
                 cat \$dir/*R1* > R1.fastq.gz
                 cat \$dir/*R2* > R2.fastq.gz
 
-                filtlong -1 R1.fastq.gz -2 R2.fastq.gz --min_length 200 --trim --split 1000 ${SampleID_LR}_PREQC.fastq.gz | bgzip > ${SampleID_LR}.fastq.gz
+                filtlong -1 R1.fastq.gz -2 R2.fastq.gz --min_length 200 --trim --split 1000 --min_mean_q 90 ${SampleID_LR}_PREQC.fastq.gz | bgzip > ${SampleID_LR}.fastq.gz
                 
                 rm -rf ${SampleID_LR}_PREQC.fastq.gz R1.fastq.gz R2.fastq.gz
 
@@ -54,7 +54,7 @@ maxRetries 3
                 cat \$dir/*R1* > R1.fastq.gz
                 cat \$dir/*R2* > R2.fastq.gz
 
-                filtlong -1 R1.fastq.gz -2 R2.fastq.gz --min_length 200 --trim --split 1000 ${SampleID_LR}_PREQC.fastq.gz | bgzip > ${SampleID_LR}.fastq.gz
+                filtlong -1 R1.fastq.gz -2 R2.fastq.gz --min_length 200 --trim --split 1000 --min_mean_q 90 ${SampleID_LR}_PREQC.fastq.gz | bgzip > ${SampleID_LR}.fastq.gz
                 
                 rm -rf ${SampleID_LR}_PREQC.fastq.gz R1.fastq.gz R2.fastq.gz
 
@@ -69,7 +69,7 @@ maxRetries 3
 
                 NanoPlot -t $task.cpus --fastq ${SampleID_LR}_PREQC.fastq.gz --outdir ${SampleID_LR}_PREQC -p ${SampleID_LR}_ --loglength --plots dot
                 
-                filtlong --min_length 200 ${SampleID_LR}_PREQC.fastq.gz | bgzip > ${SampleID_LR}.fastq.gz
+                filtlong --min_length 200 --min_mean_q 90 ${SampleID_LR}_PREQC.fastq.gz | bgzip > ${SampleID_LR}.fastq.gz
                 
                 rm -rf ${SampleID_LR}_PREQC.fastq.gz
                 
@@ -83,7 +83,7 @@ maxRetries 3
 
                 NanoPlot -t $task.cpus --fastq ${SampleID_LR}_PREQC.fastq.gz --outdir ${SampleID_LR}_PREQC -p ${SampleID_LR}_ --loglength --plots dot
 
-                filtlong --min_length 200 ${SampleID_LR}_PREQC.fastq.gz | bgzip > ${SampleID_LR}.fastq.gz
+                filtlong --min_length 200 --min_mean_q 90 ${SampleID_LR}_PREQC.fastq.gz | bgzip > ${SampleID_LR}.fastq.gz
                 
                 rm -rf ${SampleID_LR}_PREQC.fastq.gz
                 

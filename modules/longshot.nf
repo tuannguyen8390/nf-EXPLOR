@@ -1,8 +1,8 @@
-// SNVs calling settings 
-
 process LONGSHOT {
 time { 24.hour * task.attempt }
 label 'medium_job'
+errorStrategy 'retry'
+maxRetries 3
 
         //scratch true
         scratch true

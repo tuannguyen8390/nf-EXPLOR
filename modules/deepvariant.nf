@@ -1,7 +1,9 @@
 process DEEPVARIANT {
 label 'medium_job'
 time { 24.hour * task.attempt }
-        
+errorStrategy 'retry'
+maxRetries 3
+
         scratch true
         stageInMode = 'copy'
         stageOutMode = 'rsync'

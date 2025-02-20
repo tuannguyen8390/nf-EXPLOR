@@ -1,5 +1,4 @@
 SampleID,Technology,Kit,IntID,Breed,Sex,Sire_IntID,Dam_IntID,BioSampleID,BioProjectID,Shortread_Avail,FASTQ_LR_Dir
-HOL1,ONT,941,IntID01,HOL,F,Sire,Dam,BioSampleID,BioProjectID,TRUE,/group/dairy/Tuan/Recessive_lethal/Nextflow/AgVic_BovLRC_Inhouse/asset/test_data/LR/HOL1
-HOL2,ONT,1041,IntID02,HOL,F,Sire,Dam,BioSampleID,BioProjectID,FALSE,/group/dairy/Tuan/Recessive_lethal/Nextflow/AgVic_BovLRC_Inhouse/asset/test_data/LR/HOL2
-BRA1,ONT,1040,IntID03,BRA,M,Sire,Dam,BioSampleID,BioProjectID,FALSE,/group/dairy/Tuan/Recessive_lethal/Nextflow/AgVic_BovLRC_Inhouse/asset/test_data/LR/BRA1
-BRA2,PB,NA,IntID04,BRA,M,Sire,Dam,BioSampleID,BioProjectID,FALSE,/group/dairy/Tuan/Recessive_lethal/Nextflow/AgVic_BovLRC_Inhouse/asset/test_data/LR/BRA2
+HOL1,ONT,941,IntID01,HOL,F,Sire,Dam,BioSampleID,BioProjectID,TRUE,BASEDIR/asset/test_data/LR/HOL1
+BRA1,ONT,1040,IntID03,BRA,M,Sire,Dam,BioSampleID,BioProjectID,FALSE,BASEDIR/asset/test_data/LR/BRA1
+BRA2,PB,NA,IntID04,BRA,M,Sire,Dam,BioSampleID,BioProjectID,FALSE,BASEDIR/asset/test_data/LR/BRA2

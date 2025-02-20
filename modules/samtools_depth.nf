@@ -1,7 +1,8 @@
 process SAMTOOLS_DEPTH {
 label 'high_mem' 
 time '48h'
-
+errorStrategy 'retry'
+maxRetries 3
         
         publishDir "$params.Report_Dir/Read_depth/Samtools_depth/${SampleID}", mode:params.SaveMode, overwrite:params.Overwrite
 

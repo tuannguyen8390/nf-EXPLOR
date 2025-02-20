@@ -1,8 +1,10 @@
 process MOSDEPTH {
 label 'medium_job' 
 time '3h'
+errorStrategy 'retry'
+maxRetries 3
 
-        publishDir "$params.Report_Dir/Read_depth/Mosdepth/${SampleID}", mode:params.SaveMode, overwrite:params.Overwrite
+        publishDir "$params.Report_Dir/Read_depth/Mosdepth/${SampleID}_${Technology}", mode:params.SaveMode, overwrite:params.Overwrite
 
         input:
         path bam

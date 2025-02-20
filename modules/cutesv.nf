@@ -1,6 +1,8 @@
 process CUTESV {
 label 'medium_job' 
 time { 12.hour * task.attempt } 
+errorStrategy 'retry'
+maxRetries 3
 
         scratch true
         stageInMode = 'symlink'

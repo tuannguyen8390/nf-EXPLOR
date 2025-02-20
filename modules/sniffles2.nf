@@ -23,10 +23,9 @@ maxRetries 3
 
         script:
         """
-        sniffles --input ${bam} --vcf ${SampleID}_SV.vcf --snf ${SampleID}.snf --output-rnames --threads $task.cpus
+        sniffles --input ${bam} --vcf ${SampleID}_${Technology}_SV.vcf.gz --snf ${SampleID}_${Technology}.snf --reference ${genome} --output-rnames --threads $task.cpus
         
-        bgzip -@ $task.cpus ${SampleID}_SV.vcf
-        bgzip -@ $task.cpus ${SampleID}.snf
+        bgzip ${SampleID}_${Technology}.snf
         """
 }
 

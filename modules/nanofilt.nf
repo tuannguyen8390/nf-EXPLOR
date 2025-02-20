@@ -28,7 +28,7 @@ maxRetries 3
                         
                 NanoPlot -t $task.cpus --fastq ${SampleID_LR}_PREQC.fastq.gz --outdir ${SampleID_LR}_PREQC --loglength --plots dot
 
-                bgzip -d -c ${SampleID_LR}_PREQC.fastq.gz -@ $task.cpus | NanoFilt -l 200 | bgzip -@ $task.cpus > ${SampleID_LR}.fastq.gz
+                bgzip -d -c ${SampleID_LR}_PREQC.fastq.gz -@ $task.cpus | NanoFilt -l 200 -q 10 | bgzip -@ $task.cpus > ${SampleID_LR}.fastq.gz
         
                 NanoPlot -t $task.cpus --fastq ${SampleID_LR}.fastq.gz --outdir ${SampleID_LR}_POSTQC --loglength --plots dot
 
@@ -42,7 +42,7 @@ maxRetries 3
                         
                 NanoPlot -t $task.cpus --fastq ${SampleID_LR}_PREQC.fastq.gz --outdir ${SampleID_LR}_PREQC --loglength --plots dot
 
-                bgzip -d -c ${SampleID_LR}_PREQC.fastq.gz -@ $task.cpus | NanoFilt -l 200 | bgzip -@ $task.cpus > ${SampleID_LR}.fastq.gz
+                bgzip -d -c ${SampleID_LR}_PREQC.fastq.gz -@ $task.cpus | NanoFilt -l 200 -q 10 | bgzip -@ $task.cpus > ${SampleID_LR}.fastq.gz
         
                 NanoPlot -t $task.cpus --fastq ${SampleID_LR}.fastq.gz --outdir ${SampleID_LR}_POSTQC --loglength --plots dot
 

@@ -2,6 +2,8 @@
 process NGMLR {
 label 'big_job' 
 time '48h'
+errorStrategy 'retry'
+maxRetries 3
 
         scratch true
         stageInMode = 'symlink'
