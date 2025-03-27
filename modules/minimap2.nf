@@ -24,13 +24,13 @@ maxRetries 3
         
         if( params.MapMethod == 'Minimap2' && "${Technology}" == 'ONT' ) 
             """
-            minimap2 -ax map-ont ARS-bov-ont.mmi -t $task.cpus ${fastq} --MD | samtools sort -@ $task.cpus - -o ${SampleID}.sorted.bam 
-            samtools index -@ $task.cpus ${SampleID}.sorted.bam                       
+            minimap2 -ax map-ont ARS-bov-ont.mmi -t $task.cpus ${fastq} --MD | samtools sort -@ $task.cpus - -o ${SampleID}_${Technology}.sorted.bam 
+            samtools index -@ $task.cpus ${SampleID}_${Technology}.sorted.bam                       
             """
         else if( params.MapMethod == 'Minimap2' && "${Technology}" == 'PB') 
             """
-            minimap2 -ax map-hifi ARS-bov-hifi.mmi -t $task.cpus ${fastq} --MD | samtools sort -@ $task.cpus - -o ${SampleID}.sorted.bam  
-            samtools index -@ $task.cpus ${SampleID}.sorted.bam          
+            minimap2 -ax map-hifi ARS-bov-hifi.mmi -t $task.cpus ${fastq} --MD | samtools sort -@ $task.cpus - -o ${SampleID}_${Technology}.sorted.bam  
+            samtools index -@ $task.cpus ${SampleID}_${Technology}.sorted.bam          
             """
         else
             """

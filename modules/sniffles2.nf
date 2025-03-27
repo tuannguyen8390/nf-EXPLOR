@@ -26,7 +26,8 @@ maxRetries 3
         sniffles --input ${bam} --vcf ${SampleID}_${Technology}_SV.vcf.gz --snf ${SampleID}_${Technology}.snf --reference ${genome} --output-rnames --threads $task.cpus
         
         bgzip ${SampleID}_${Technology}.snf
+        
+        sniffles --version | head -n 1 > versions.txt
         """
 }
 
-// sniffles --version | head -n 1 | sed 's/ Version //' >> versions.txt
